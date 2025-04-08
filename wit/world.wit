@@ -1,0 +1,9 @@
+package y:name;
+
+world name {
+  export name: interface {
+    flags flag-type { a, b, c }
+
+    dummy: func(name: future<flag-type>) -> future<flag-type>;
+  }
+}
