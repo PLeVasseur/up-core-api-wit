@@ -1,0 +1,7 @@
+package uprotocol:basic;
+
+interface uattributes {
+    record uattributes {
+        foo: u32
+    }
+}

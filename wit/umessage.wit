@@ -1,0 +1,10 @@
+package uprotocol:basic;
+
+interface umessage {
+    use uattributes.{uattributes};
+
+    record umessage {
+        uattributes: uattributes
+    }
+
+}

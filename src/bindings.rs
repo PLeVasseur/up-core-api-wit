@@ -3,6 +3,53 @@
 //   * runtime_path: "wit_bindgen_rt"
 #[rustfmt::skip]
 #[allow(dead_code, clippy::all)]
+pub mod uprotocol {
+    pub mod basic {
+        #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
+        pub mod uattributes {
+            #[used]
+            #[doc(hidden)]
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
+            #[repr(C)]
+            #[derive(Clone, Copy)]
+            pub struct Uattributes {
+                pub foo: u32,
+            }
+            impl ::core::fmt::Debug for Uattributes {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    f.debug_struct("Uattributes").field("foo", &self.foo).finish()
+                }
+            }
+        }
+        #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
+        pub mod umessage {
+            #[used]
+            #[doc(hidden)]
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
+            pub type Uattributes = super::super::super::uprotocol::basic::uattributes::Uattributes;
+            #[repr(C)]
+            #[derive(Clone, Copy)]
+            pub struct Umessage {
+                pub uattributes: Uattributes,
+            }
+            impl ::core::fmt::Debug for Umessage {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    f.debug_struct("Umessage")
+                        .field("uattributes", &self.uattributes)
+                        .finish()
+                }
+            }
+        }
+    }
+}
+#[rustfmt::skip]
+#[allow(dead_code, clippy::all)]
 pub mod exports {
     pub mod uprotocol {
         pub mod basic {
@@ -176,30 +223,122 @@ pub mod exports {
                 #[doc(hidden)]
                 static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_custom_section_describing_imports;
                 use super::super::super::super::_rt;
+                pub type Uuri = super::super::super::super::exports::uprotocol::basic::uuri::Uuri;
+                pub type Umessage = super::super::super::super::uprotocol::basic::umessage::Umessage;
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
-                pub unsafe fn _export_dummy_cabi<T: Guest>(arg0: i32) -> i32 {
+                pub unsafe fn _export_register_listener_cabi<T: Guest>(
+                    arg0: *mut u8,
+                    arg1: usize,
+                    arg2: i32,
+                    arg3: i32,
+                    arg4: i32,
+                    arg5: *mut u8,
+                    arg6: usize,
+                    arg7: i32,
+                    arg8: i32,
+                    arg9: i32,
+                ) -> i32 {
                     #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
-                    let result0 = T::dummy(unsafe {
-                        wit_bindgen_rt::async_support::FutureReader::from_handle_and_vtable(
-                            arg0 as u32,
-                            &super::super::super::super::wit_future::vtable0::VTABLE,
-                        )
+                    let len0 = arg1;
+                    let bytes0 = _rt::Vec::from_raw_parts(arg0.cast(), len0, len0);
+                    let len1 = arg6;
+                    let bytes1 = _rt::Vec::from_raw_parts(arg5.cast(), len1, len1);
+                    let result2 = T::register_listener(
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes0),
+                            ue_id: arg2 as u32,
+                            ue_version_major: arg3 as u32,
+                            resource_id: arg4 as u32,
+                        },
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes1),
+                            ue_id: arg7 as u32,
+                            ue_version_major: arg8 as u32,
+                            resource_id: arg9 as u32,
+                        },
+                    );
+                    (result2).take_handle() as i32
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_unregister_listener_cabi<T: Guest>(
+                    arg0: *mut u8,
+                    arg1: usize,
+                    arg2: i32,
+                    arg3: i32,
+                    arg4: i32,
+                    arg5: *mut u8,
+                    arg6: usize,
+                    arg7: i32,
+                    arg8: i32,
+                    arg9: i32,
+                ) -> i32 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let len0 = arg1;
+                    let bytes0 = _rt::Vec::from_raw_parts(arg0.cast(), len0, len0);
+                    let len1 = arg6;
+                    let bytes1 = _rt::Vec::from_raw_parts(arg5.cast(), len1, len1);
+                    let result2 = T::unregister_listener(
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes0),
+                            ue_id: arg2 as u32,
+                            ue_version_major: arg3 as u32,
+                            resource_id: arg4 as u32,
+                        },
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes1),
+                            ue_id: arg7 as u32,
+                            ue_version_major: arg8 as u32,
+                            resource_id: arg9 as u32,
+                        },
+                    );
+                    (result2).take_handle() as i32
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_send_cabi<T: Guest>(arg0: i32) -> i32 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::send(super::super::super::super::uprotocol::basic::umessage::Umessage {
+                        uattributes: super::super::super::super::uprotocol::basic::uattributes::Uattributes {
+                            foo: arg0 as u32,
+                        },
                     });
                     (result0).take_handle() as i32
                 }
                 pub trait Guest {
-                    fn dummy(
-                        name: wit_bindgen_rt::async_support::FutureReader<_rt::String>,
+                    fn register_listener(
+                        source_filter: Uuri,
+                        sink_filter: Uuri,
+                    ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    fn unregister_listener(
+                        source_filter: Uuri,
+                        sink_filter: Uuri,
+                    ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    fn send(
+                        message: Umessage,
                     ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
                 }
                 #[doc(hidden)]
                 macro_rules! __export_uprotocol_basic_utransport_cabi {
                     ($ty:ident with_types_in $($path_to_types:tt)*) => {
                         const _ : () = { #[unsafe (export_name =
-                        "uprotocol:basic/utransport#dummy")] unsafe extern "C" fn
-                        export_dummy(arg0 : i32,) -> i32 { unsafe { $($path_to_types)*::
-                        _export_dummy_cabi::<$ty > (arg0) } } };
+                        "uprotocol:basic/utransport#register-listener")] unsafe extern
+                        "C" fn export_register_listener(arg0 : * mut u8, arg1 : usize,
+                        arg2 : i32, arg3 : i32, arg4 : i32, arg5 : * mut u8, arg6 :
+                        usize, arg7 : i32, arg8 : i32, arg9 : i32,) -> i32 { unsafe {
+                        $($path_to_types)*:: _export_register_listener_cabi::<$ty >
+                        (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) } }
+                        #[unsafe (export_name =
+                        "uprotocol:basic/utransport#unregister-listener")] unsafe extern
+                        "C" fn export_unregister_listener(arg0 : * mut u8, arg1 : usize,
+                        arg2 : i32, arg3 : i32, arg4 : i32, arg5 : * mut u8, arg6 :
+                        usize, arg7 : i32, arg8 : i32, arg9 : i32,) -> i32 { unsafe {
+                        $($path_to_types)*:: _export_unregister_listener_cabi::<$ty >
+                        (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) } }
+                        #[unsafe (export_name = "uprotocol:basic/utransport#send")]
+                        unsafe extern "C" fn export_send(arg0 : i32,) -> i32 { unsafe {
+                        $($path_to_types)*:: _export_send_cabi::<$ty > (arg0) } } };
                     };
                 }
                 #[doc(hidden)]
@@ -443,19 +582,19 @@ pub mod wit_future {
         #[cfg(target_arch = "wasm32")]
         #[link(wasm_import_module = "[export]uprotocol:basic/utransport")]
         unsafe extern "C" {
-            #[link_name = "[future-new-0]dummy"]
+            #[link_name = "[future-new-0]register-listener"]
             fn new() -> u32;
-            #[link_name = "[future-cancel-write-0]dummy"]
+            #[link_name = "[future-cancel-write-0]register-listener"]
             fn cancel_write(_: u32) -> u32;
-            #[link_name = "[future-cancel-read-0]dummy"]
+            #[link_name = "[future-cancel-read-0]register-listener"]
             fn cancel_read(_: u32) -> u32;
-            #[link_name = "[future-close-writable-0]dummy"]
+            #[link_name = "[future-close-writable-0]register-listener"]
             fn close_writable(_: u32, _: u32);
-            #[link_name = "[future-close-readable-0]dummy"]
+            #[link_name = "[future-close-readable-0]register-listener"]
             fn close_readable(_: u32, _: u32);
-            #[link_name = "[async-lower][future-read-0]dummy"]
+            #[link_name = "[async-lower][future-read-0]register-listener"]
             fn start_read(_: u32, _: *mut u8) -> u32;
-            #[link_name = "[async-lower][future-write-0]dummy"]
+            #[link_name = "[async-lower][future-write-0]register-listener"]
             fn start_write(_: u32, _: *mut u8) -> u32;
         }
         pub static VTABLE: wit_bindgen_rt::async_support::FutureVtable<
@@ -523,16 +662,23 @@ pub(crate) use __export_up_core_api_impl as export;
 )]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 415] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x9d\x02\x01A\x02\x01\
-A\x06\x01B\x04\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0bres\
-ource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\0\x14\
-uprotocol:basic/uuri\x05\0\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\
-\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\x04\0\x14uprotocol:basic/uuid\x05\x01\
-\x01B\x03\x01e\x01s\x01@\x01\x04name\0\0\0\x04\0\x05dummy\x01\x01\x04\0\x1auprot\
-ocol:basic/utransport\x05\x02\x04\0\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\
-\x01\0\x0bup-core-api\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-com\
-ponent\x070.227.1\x10wit-bindgen-rust\x060.41.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 712] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xc6\x04\x01A\x02\x01\
+A\x0d\x01B\x02\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x03\0\x1buprotocol:\
+basic/uattributes\x05\0\x02\x03\0\0\x0buattributes\x01B\x04\x02\x03\x02\x01\x01\x04\
+\0\x0buattributes\x03\0\0\x01r\x01\x0buattributes\x01\x04\0\x08umessage\x03\0\x02\
+\x03\0\x18uprotocol:basic/umessage\x05\x02\x01B\x04\x01r\x04\x0eauthority-names\x05\
+ue-idy\x10ue-version-majory\x0bresource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\
+\0\x0bcreate-uuri\x01\x02\x04\0\x14uprotocol:basic/uuri\x05\x03\x01B\x04\x01r\x02\
+\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\
+\x04\0\x14uprotocol:basic/uuid\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08um\
+essage\x01B\x0a\x02\x03\x02\x01\x05\x04\0\x04uuri\x03\0\0\x02\x03\x02\x01\x06\x04\
+\0\x08umessage\x03\0\x02\x01e\x01s\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\
+\0\x04\x04\0\x11register-listener\x01\x05\x04\0\x13unregister-listener\x01\x05\x01\
+@\x01\x07message\x03\0\x04\x04\0\x04send\x01\x06\x04\0\x1auprotocol:basic/utrans\
+port\x05\x07\x04\0\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core\
+-api\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.227.1\
+\x10wit-bindgen-rust\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {
