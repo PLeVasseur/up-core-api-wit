@@ -7,7 +7,7 @@ edition = "2024"
 wit-bindgen-rt = { version = "0.41.0", features = ["bitflags", "async"] }
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["rlib"]
 
 [package.metadata.component]
 package = "component:asyncdemo"
