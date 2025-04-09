@@ -23,6 +23,25 @@ pub mod uprotocol {
                     f.debug_struct("Uattributes").field("foo", &self.foo).finish()
                 }
             }
+            #[allow(unused_unsafe, clippy::all)]
+            /// Add a simple function that uses the uuid type
+            /// This ensures the type is included in bindings
+            pub fn create_uattributes() -> Uattributes {
+                unsafe {
+                    #[cfg(target_arch = "wasm32")]
+                    #[link(wasm_import_module = "uprotocol:basic/uattributes")]
+                    unsafe extern "C" {
+                        #[link_name = "create-uattributes"]
+                        fn wit_import0() -> i32;
+                    }
+                    #[cfg(not(target_arch = "wasm32"))]
+                    unsafe extern "C" fn wit_import0() -> i32 {
+                        unreachable!()
+                    }
+                    let ret = unsafe { wit_import0() };
+                    Uattributes { foo: ret as u32 }
+                }
+            }
         }
         #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
         pub mod umessage {
@@ -662,23 +681,23 @@ pub(crate) use __export_up_core_api_impl as export;
 )]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 712] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xc6\x04\x01A\x02\x01\
-A\x0d\x01B\x02\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x03\0\x1buprotocol:\
-basic/uattributes\x05\0\x02\x03\0\0\x0buattributes\x01B\x04\x02\x03\x02\x01\x01\x04\
-\0\x0buattributes\x03\0\0\x01r\x01\x0buattributes\x01\x04\0\x08umessage\x03\0\x02\
-\x03\0\x18uprotocol:basic/umessage\x05\x02\x01B\x04\x01r\x04\x0eauthority-names\x05\
-ue-idy\x10ue-version-majory\x0bresource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\
-\0\x0bcreate-uuri\x01\x02\x04\0\x14uprotocol:basic/uuri\x05\x03\x01B\x04\x01r\x02\
-\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\
-\x04\0\x14uprotocol:basic/uuid\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08um\
-essage\x01B\x0a\x02\x03\x02\x01\x05\x04\0\x04uuri\x03\0\0\x02\x03\x02\x01\x06\x04\
-\0\x08umessage\x03\0\x02\x01e\x01s\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\
-\0\x04\x04\0\x11register-listener\x01\x05\x04\0\x13unregister-listener\x01\x05\x01\
-@\x01\x07message\x03\0\x04\x04\0\x04send\x01\x06\x04\0\x1auprotocol:basic/utrans\
-port\x05\x07\x04\0\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core\
--api\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.227.1\
-\x10wit-bindgen-rust\x060.41.0";
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 740] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xe2\x04\x01A\x02\x01\
+A\x0d\x01B\x04\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x01@\0\0\x01\x04\0\x12\
+create-uattributes\x01\x02\x03\0\x1buprotocol:basic/uattributes\x05\0\x02\x03\0\0\
+\x0buattributes\x01B\x04\x02\x03\x02\x01\x01\x04\0\x0buattributes\x03\0\0\x01r\x01\
+\x0buattributes\x01\x04\0\x08umessage\x03\0\x02\x03\0\x18uprotocol:basic/umessag\
+e\x05\x02\x01B\x04\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0b\
+resource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\
+\0\x14uprotocol:basic/uuri\x05\x03\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uu\
+id\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\x04\0\x14uprotocol:basic/uu\
+id\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08umessage\x01B\x0a\x02\x03\x02\x01\
+\x05\x04\0\x04uuri\x03\0\0\x02\x03\x02\x01\x06\x04\0\x08umessage\x03\0\x02\x01e\x01\
+s\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\0\x04\x04\0\x11register-liste\
+ner\x01\x05\x04\0\x13unregister-listener\x01\x05\x01@\x01\x07message\x03\0\x04\x04\
+\0\x04send\x01\x06\x04\0\x1auprotocol:basic/utransport\x05\x07\x04\0\x1buprotoco\
+l:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core-api\x03\0\0\0G\x09producers\x01\
+\x0cprocessed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {
