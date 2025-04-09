@@ -1,0 +1,25 @@
+package uprotocol:basic;
+
+interface uuri {
+
+  // Data model definition for source and destination addressing of messages sent to/from
+  // devices, services, methods, topics, etc... 
+  record uuri {
+    // Authority Name.
+    //
+    // Could be the host name, ip address, device & domain names, etc..
+    authority-name: string,
+
+    // Software Entity (uEntity) Identifiers.
+    ue-id: u32,
+
+    // Software Entity (uEntity) major version number.
+    ue-version-major: u32,
+
+    // uEntity resource id.
+    //
+    // Identifier used to represent either a method, publish topic, or notification topic.  
+    resource-id: u32
+  }
+
+}

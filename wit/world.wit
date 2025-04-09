@@ -1,9 +1,7 @@
-package y:name;
+package uprotocol:basic;
 
-world name {
-  export name: interface {
-    flags flag-type { a, b, c }
-
-    dummy: func(name: future<flag-type>) -> future<flag-type>;
-  }
+world up-core-api {
+  export uuri;
+  export uuid;
+  export utransport;
 }

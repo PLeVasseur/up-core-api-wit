@@ -1,0 +1,9 @@
+package uprotocol:basic;
+
+interface uuid {
+  // The UUID datamodel per https://www.rfc-editor.org/rfc/rfc9562[RFC 9562]
+  record uuid {
+      msb: u64, // Most significant bits
+      lsb: u64  // Least significant bits
+  }
+}

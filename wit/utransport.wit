@@ -1,0 +1,6 @@
+package uprotocol:basic;
+
+interface utransport {
+    dummy: func(name: future<string>) -> future<string>;
+}
+
