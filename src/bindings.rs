@@ -11,28 +11,164 @@ pub mod exports {
                 #[used]
                 #[doc(hidden)]
                 static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_custom_section_describing_imports;
+                use super::super::super::super::_rt;
+                /// Data model definition for source and destination addressing of messages sent to/from
+                /// devices, services, methods, topics, etc...
+                #[derive(Clone)]
+                pub struct Uuri {
+                    /// Authority Name.
+                    ///
+                    /// Could be the host name, ip address, device & domain names, etc..
+                    pub authority_name: _rt::String,
+                    /// Software Entity (uEntity) Identifiers.
+                    pub ue_id: u32,
+                    /// Software Entity (uEntity) major version number.
+                    pub ue_version_major: u32,
+                    /// uEntity resource id.
+                    ///
+                    /// Identifier used to represent either a method, publish topic, or notification topic.
+                    pub resource_id: u32,
+                }
+                impl ::core::fmt::Debug for Uuri {
+                    fn fmt(
+                        &self,
+                        f: &mut ::core::fmt::Formatter<'_>,
+                    ) -> ::core::fmt::Result {
+                        f.debug_struct("Uuri")
+                            .field("authority-name", &self.authority_name)
+                            .field("ue-id", &self.ue_id)
+                            .field("ue-version-major", &self.ue_version_major)
+                            .field("resource-id", &self.resource_id)
+                            .finish()
+                    }
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_create_uuri_cabi<T: Guest>() -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::create_uuri();
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let Uuri {
+                        authority_name: authority_name2,
+                        ue_id: ue_id2,
+                        ue_version_major: ue_version_major2,
+                        resource_id: resource_id2,
+                    } = result0;
+                    let vec3 = (authority_name2.into_bytes()).into_boxed_slice();
+                    let ptr3 = vec3.as_ptr().cast::<u8>();
+                    let len3 = vec3.len();
+                    ::core::mem::forget(vec3);
+                    *ptr1.add(::core::mem::size_of::<*const u8>()).cast::<usize>() = len3;
+                    *ptr1.add(0).cast::<*mut u8>() = ptr3.cast_mut();
+                    *ptr1.add(2 * ::core::mem::size_of::<*const u8>()).cast::<i32>() = _rt::as_i32(
+                        ue_id2,
+                    );
+                    *ptr1
+                        .add(4 + 2 * ::core::mem::size_of::<*const u8>())
+                        .cast::<i32>() = _rt::as_i32(ue_version_major2);
+                    *ptr1
+                        .add(8 + 2 * ::core::mem::size_of::<*const u8>())
+                        .cast::<i32>() = _rt::as_i32(resource_id2);
+                    ptr1
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn __post_return_create_uuri<T: Guest>(arg0: *mut u8) {
+                    let l0 = *arg0.add(0).cast::<*mut u8>();
+                    let l1 = *arg0
+                        .add(::core::mem::size_of::<*const u8>())
+                        .cast::<usize>();
+                    _rt::cabi_dealloc(l0, l1, 1);
+                }
+                pub trait Guest {
+                    /// Add a simple function that uses the uuid type
+                    /// This ensures the type is included in bindings
+                    fn create_uuri() -> Uuri;
+                }
                 #[doc(hidden)]
                 macro_rules! __export_uprotocol_basic_uuri_cabi {
                     ($ty:ident with_types_in $($path_to_types:tt)*) => {
-                        const _ : () = {};
+                        const _ : () = { #[unsafe (export_name =
+                        "uprotocol:basic/uuri#create-uuri")] unsafe extern "C" fn
+                        export_create_uuri() -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_create_uuri_cabi::<$ty > () } } #[unsafe (export_name =
+                        "cabi_post_uprotocol:basic/uuri#create-uuri")] unsafe extern "C"
+                        fn _post_return_create_uuri(arg0 : * mut u8,) { unsafe {
+                        $($path_to_types)*:: __post_return_create_uuri::<$ty > (arg0) } }
+                        };
                     };
                 }
                 #[doc(hidden)]
                 pub(crate) use __export_uprotocol_basic_uuri_cabi;
+                #[cfg_attr(target_pointer_width = "64", repr(align(8)))]
+                #[cfg_attr(target_pointer_width = "32", repr(align(4)))]
+                struct _RetArea(
+                    [::core::mem::MaybeUninit<
+                        u8,
+                    >; 8 + 3 * ::core::mem::size_of::<*const u8>()],
+                );
+                static mut _RET_AREA: _RetArea = _RetArea(
+                    [::core::mem::MaybeUninit::uninit(); 8
+                        + 3 * ::core::mem::size_of::<*const u8>()],
+                );
             }
             #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
             pub mod uuid {
                 #[used]
                 #[doc(hidden)]
                 static __FORCE_SECTION_REF: fn() = super::super::super::super::__link_custom_section_describing_imports;
+                use super::super::super::super::_rt;
+                /// The UUID datamodel per https://www.rfc-editor.org/rfc/rfc9562[RFC 9562]
+                #[repr(C)]
+                #[derive(Clone, Copy)]
+                pub struct Uuid {
+                    pub msb: u64,
+                    /// Most significant bits
+                    pub lsb: u64,
+                }
+                impl ::core::fmt::Debug for Uuid {
+                    fn fmt(
+                        &self,
+                        f: &mut ::core::fmt::Formatter<'_>,
+                    ) -> ::core::fmt::Result {
+                        f.debug_struct("Uuid")
+                            .field("msb", &self.msb)
+                            .field("lsb", &self.lsb)
+                            .finish()
+                    }
+                }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_create_uuid_cabi<T: Guest>() -> *mut u8 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let result0 = T::create_uuid();
+                    let ptr1 = (&raw mut _RET_AREA.0).cast::<u8>();
+                    let Uuid { msb: msb2, lsb: lsb2 } = result0;
+                    *ptr1.add(0).cast::<i64>() = _rt::as_i64(msb2);
+                    *ptr1.add(8).cast::<i64>() = _rt::as_i64(lsb2);
+                    ptr1
+                }
+                pub trait Guest {
+                    /// Add a simple function that uses the uuid type
+                    /// This ensures the type is included in bindings
+                    fn create_uuid() -> Uuid;
+                }
                 #[doc(hidden)]
                 macro_rules! __export_uprotocol_basic_uuid_cabi {
                     ($ty:ident with_types_in $($path_to_types:tt)*) => {
-                        const _ : () = {};
+                        const _ : () = { #[unsafe (export_name =
+                        "uprotocol:basic/uuid#create-uuid")] unsafe extern "C" fn
+                        export_create_uuid() -> * mut u8 { unsafe { $($path_to_types)*::
+                        _export_create_uuid_cabi::<$ty > () } } };
                     };
                 }
                 #[doc(hidden)]
                 pub(crate) use __export_uprotocol_basic_uuid_cabi;
+                #[repr(align(8))]
+                struct _RetArea([::core::mem::MaybeUninit<u8>; 16]);
+                static mut _RET_AREA: _RetArea = _RetArea(
+                    [::core::mem::MaybeUninit::uninit(); 16],
+                );
             }
             #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
             pub mod utransport {
@@ -76,6 +212,99 @@ pub mod exports {
 mod _rt {
     #![allow(dead_code, clippy::all)]
     pub use alloc_crate::string::String;
+    #[cfg(target_arch = "wasm32")]
+    pub fn run_ctors_once() {
+        wit_bindgen_rt::run_ctors_once();
+    }
+    pub fn as_i32<T: AsI32>(t: T) -> i32 {
+        t.as_i32()
+    }
+    pub trait AsI32 {
+        fn as_i32(self) -> i32;
+    }
+    impl<'a, T: Copy + AsI32> AsI32 for &'a T {
+        fn as_i32(self) -> i32 {
+            (*self).as_i32()
+        }
+    }
+    impl AsI32 for i32 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for u32 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for i16 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for u16 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for i8 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for u8 {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for char {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    impl AsI32 for usize {
+        #[inline]
+        fn as_i32(self) -> i32 {
+            self as i32
+        }
+    }
+    pub unsafe fn cabi_dealloc(ptr: *mut u8, size: usize, align: usize) {
+        if size == 0 {
+            return;
+        }
+        let layout = alloc::Layout::from_size_align_unchecked(size, align);
+        alloc::dealloc(ptr, layout);
+    }
+    pub fn as_i64<T: AsI64>(t: T) -> i64 {
+        t.as_i64()
+    }
+    pub trait AsI64 {
+        fn as_i64(self) -> i64;
+    }
+    impl<'a, T: Copy + AsI64> AsI64 for &'a T {
+        fn as_i64(self) -> i64 {
+            (*self).as_i64()
+        }
+    }
+    impl AsI64 for i64 {
+        #[inline]
+        fn as_i64(self) -> i64 {
+            self as i64
+        }
+    }
+    impl AsI64 for u64 {
+        #[inline]
+        fn as_i64(self) -> i64 {
+            self as i64
+        }
+    }
     pub use alloc_crate::vec::Vec;
     pub unsafe fn string_lift(bytes: Vec<u8>) -> String {
         if cfg!(debug_assertions) {
@@ -85,11 +314,8 @@ mod _rt {
         }
     }
     pub use alloc_crate::boxed::Box;
-    #[cfg(target_arch = "wasm32")]
-    pub fn run_ctors_once() {
-        wit_bindgen_rt::run_ctors_once();
-    }
     extern crate alloc as alloc_crate;
+    pub use alloc_crate::alloc;
 }
 pub mod wit_future {
     #![allow(dead_code, unused_variables, clippy::all)]
@@ -297,11 +523,12 @@ pub(crate) use __export_up_core_api_impl as export;
 )]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 373] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xf3\x01\x01A\x02\x01\
-A\x06\x01B\x02\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0bres\
-ource-idy\x04\0\x04uuri\x03\0\0\x04\0\x14uprotocol:basic/uuri\x05\0\x01B\x02\x01\
-r\x02\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\0\x04\0\x14uprotocol:basic/uuid\x05\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 415] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x9d\x02\x01A\x02\x01\
+A\x06\x01B\x04\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0bres\
+ource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\0\x14\
+uprotocol:basic/uuri\x05\0\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\
+\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\x04\0\x14uprotocol:basic/uuid\x05\x01\
 \x01B\x03\x01e\x01s\x01@\x01\x04name\0\0\0\x04\0\x05dummy\x01\x01\x04\0\x1auprot\
 ocol:basic/utransport\x05\x02\x04\0\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\
 \x01\0\x0bup-core-api\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0dwit-com\

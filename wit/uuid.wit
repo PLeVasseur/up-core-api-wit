@@ -6,4 +6,8 @@ interface uuid {
       msb: u64, // Most significant bits
       lsb: u64  // Least significant bits
   }
+
+  // Add a simple function that uses the uuid type
+  // This ensures the type is included in bindings
+  create-uuid: func() -> uuid;
 }

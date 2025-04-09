@@ -22,4 +22,7 @@ interface uuri {
     resource-id: u32
   }
 
+  // Add a simple function that uses the uuid type
+  // This ensures the type is included in bindings
+  create-uuri: func() -> uuri;
 }
