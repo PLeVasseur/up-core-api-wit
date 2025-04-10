@@ -7,6 +7,6 @@ interface utransport {
     register-listener: func(source-filter: uuri, sink-filter: uuri) -> future<string>;
     unregister-listener: func(source-filter: uuri, sink-filter: uuri) -> future<string>;
     send: func(message: umessage) -> future<string>;
-    // receive: func(name: future<uuid>) -> future<string>;
+    receive: func(source-filter: uuri, sink-filter: uuri) -> future<umessage>;
 }
 

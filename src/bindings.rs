@@ -325,6 +325,41 @@ pub mod exports {
                     });
                     (result0).take_handle() as i32
                 }
+                #[doc(hidden)]
+                #[allow(non_snake_case)]
+                pub unsafe fn _export_receive_cabi<T: Guest>(
+                    arg0: *mut u8,
+                    arg1: usize,
+                    arg2: i32,
+                    arg3: i32,
+                    arg4: i32,
+                    arg5: *mut u8,
+                    arg6: usize,
+                    arg7: i32,
+                    arg8: i32,
+                    arg9: i32,
+                ) -> i32 {
+                    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
+                    let len0 = arg1;
+                    let bytes0 = _rt::Vec::from_raw_parts(arg0.cast(), len0, len0);
+                    let len1 = arg6;
+                    let bytes1 = _rt::Vec::from_raw_parts(arg5.cast(), len1, len1);
+                    let result2 = T::receive(
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes0),
+                            ue_id: arg2 as u32,
+                            ue_version_major: arg3 as u32,
+                            resource_id: arg4 as u32,
+                        },
+                        super::super::super::super::exports::uprotocol::basic::uuri::Uuri {
+                            authority_name: _rt::string_lift(bytes1),
+                            ue_id: arg7 as u32,
+                            ue_version_major: arg8 as u32,
+                            resource_id: arg9 as u32,
+                        },
+                    );
+                    (result2).take_handle() as i32
+                }
                 pub trait Guest {
                     fn register_listener(
                         source_filter: Uuri,
@@ -337,6 +372,10 @@ pub mod exports {
                     fn send(
                         message: Umessage,
                     ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    fn receive(
+                        source_filter: Uuri,
+                        sink_filter: Uuri,
+                    ) -> wit_bindgen_rt::async_support::FutureReader<Umessage>;
                 }
                 #[doc(hidden)]
                 macro_rules! __export_uprotocol_basic_utransport_cabi {
@@ -357,7 +396,13 @@ pub mod exports {
                         (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) } }
                         #[unsafe (export_name = "uprotocol:basic/utransport#send")]
                         unsafe extern "C" fn export_send(arg0 : i32,) -> i32 { unsafe {
-                        $($path_to_types)*:: _export_send_cabi::<$ty > (arg0) } } };
+                        $($path_to_types)*:: _export_send_cabi::<$ty > (arg0) } }
+                        #[unsafe (export_name = "uprotocol:basic/utransport#receive")]
+                        unsafe extern "C" fn export_receive(arg0 : * mut u8, arg1 :
+                        usize, arg2 : i32, arg3 : i32, arg4 : i32, arg5 : * mut u8, arg6
+                        : usize, arg7 : i32, arg8 : i32, arg9 : i32,) -> i32 { unsafe {
+                        $($path_to_types)*:: _export_receive_cabi::<$ty > (arg0, arg1,
+                        arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) } } };
                     };
                 }
                 #[doc(hidden)]
@@ -486,9 +531,8 @@ pub mod wit_future {
         fn write(
             future: u32,
             value: super::super::_rt::String,
-        ) -> ::core::pin::Pin<
-            super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>,
-        > {
+        ) -> ::core::pin::Pin<super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>>
+        {
             super::super::_rt::Box::pin(async move {
                 #[repr(align(4))]
                 struct Buffer([::core::mem::MaybeUninit<u8>; 8]);
@@ -498,15 +542,13 @@ pub mod wit_future {
                     let vec0 = &value;
                     let ptr0 = vec0.as_ptr().cast::<u8>();
                     let len0 = vec0.len();
-                    *address.add(::core::mem::size_of::<*const u8>()).cast::<usize>() = len0;
+                    *address
+                        .add(::core::mem::size_of::<*const u8>())
+                        .cast::<usize>() = len0;
                     *address.add(0).cast::<*mut u8>() = ptr0.cast_mut();
                 }
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(
-                            start_write,
-                            future,
-                            address,
-                        )
+                    wit_bindgen_rt::async_support::await_future_result(start_write, future, address)
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(_) => true,
@@ -522,13 +564,13 @@ pub mod wit_future {
         ) -> ::core::pin::Pin<
             super::super::_rt::Box<
                 dyn ::core::future::Future<
-                    Output = ::std::option::Option<
-                        ::std::result::Result<
-                            super::super::_rt::String,
-                            wit_bindgen_rt::async_support::ErrorContext,
+                        Output = ::std::option::Option<
+                            ::std::result::Result<
+                                super::super::_rt::String,
+                                wit_bindgen_rt::async_support::ErrorContext,
+                            >,
                         >,
                     >,
-                >,
             >,
         > {
             super::super::_rt::Box::pin(async move {
@@ -536,11 +578,7 @@ pub mod wit_future {
                 let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 8]);
                 let address = buffer.0.as_mut_ptr() as *mut u8;
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(
-                            start_read,
-                            future,
-                            address,
-                        )
+                    wit_bindgen_rt::async_support::await_future_result(start_read, future, address)
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(v) => {
@@ -550,22 +588,15 @@ pub mod wit_future {
                                 .add(::core::mem::size_of::<*const u8>())
                                 .cast::<usize>();
                             let len2 = l1;
-                            let bytes2 = super::super::_rt::Vec::from_raw_parts(
-                                l0.cast(),
-                                len2,
-                                len2,
-                            );
+                            let bytes2 =
+                                super::super::_rt::Vec::from_raw_parts(l0.cast(), len2, len2);
                             super::super::_rt::string_lift(bytes2)
                         };
                         Some(Ok(value))
                     }
-                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => {
-                        Some(
-                            Err(
-                                wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
-                            ),
-                        )
-                    }
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => Some(Err(
+                        wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
+                    )),
                     wit_bindgen_rt::async_support::AsyncWaitResult::End => None,
                 }
             })
@@ -616,9 +647,144 @@ pub mod wit_future {
             #[link_name = "[async-lower][future-write-0]register-listener"]
             fn start_write(_: u32, _: *mut u8) -> u32;
         }
+        pub static VTABLE: wit_bindgen_rt::async_support::FutureVtable<super::super::_rt::String> =
+            wit_bindgen_rt::async_support::FutureVtable::<super::super::_rt::String> {
+                write,
+                read,
+                cancel_write,
+                cancel_read,
+                close_writable,
+                close_readable,
+                new,
+            };
+        impl super::FuturePayload for super::super::_rt::String {
+            const VTABLE: &'static wit_bindgen_rt::async_support::FutureVtable<Self> = &VTABLE;
+        }
+    }
+    #[doc(hidden)]
+    pub mod vtable1 {
+        fn write(
+            future: u32,
+            value: super::super::exports::uprotocol::basic::utransport::Umessage,
+        ) -> ::core::pin::Pin<super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>>
+        {
+            super::super::_rt::Box::pin(async move {
+                #[repr(align(4))]
+                struct Buffer([::core::mem::MaybeUninit<u8>; 4]);
+                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 4]);
+                let address = buffer.0.as_mut_ptr() as *mut u8;
+                unsafe {
+                    let super::super::uprotocol::basic::umessage::Umessage {
+                        uattributes: uattributes0,
+                    } = &value;
+                    let super::super::uprotocol::basic::uattributes::Uattributes { foo: foo1 } =
+                        uattributes0;
+                    *address.add(0).cast::<i32>() = super::super::_rt::as_i32(foo1);
+                }
+                match unsafe {
+                    wit_bindgen_rt::async_support::await_future_result(start_write, future, address)
+                        .await
+                } {
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Values(_) => true,
+                    wit_bindgen_rt::async_support::AsyncWaitResult::End => false,
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(_) => {
+                        unreachable!("received error while performing write")
+                    }
+                }
+            })
+        }
+        fn read(
+            future: u32,
+        ) -> ::core::pin::Pin<
+            super::super::_rt::Box<
+                dyn ::core::future::Future<
+                        Output = ::std::option::Option<
+                            ::std::result::Result<
+                                super::super::exports::uprotocol::basic::utransport::Umessage,
+                                wit_bindgen_rt::async_support::ErrorContext,
+                            >,
+                        >,
+                    >,
+            >,
+        > {
+            super::super::_rt::Box::pin(async move {
+                struct Buffer([::core::mem::MaybeUninit<u8>; 4]);
+                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 4]);
+                let address = buffer.0.as_mut_ptr() as *mut u8;
+                match unsafe {
+                    wit_bindgen_rt::async_support::await_future_result(start_read, future, address)
+                        .await
+                } {
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Values(v) => {
+                        let value = unsafe {
+                            let l0 = *address.add(0).cast::<i32>();
+                            super::super::uprotocol::basic::umessage::Umessage {
+                                uattributes:
+                                    super::super::uprotocol::basic::uattributes::Uattributes {
+                                        foo: l0 as u32,
+                                    },
+                            }
+                        };
+                        Some(Ok(value))
+                    }
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => Some(Err(
+                        wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
+                    )),
+                    wit_bindgen_rt::async_support::AsyncWaitResult::End => None,
+                }
+            })
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn cancel_write(_: u32) -> u32 {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn cancel_read(_: u32) -> u32 {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn close_writable(_: u32, _: u32) {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn close_readable(_: u32, _: u32) {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn new() -> u32 {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn start_read(_: u32, _: *mut u8) -> u32 {
+            unreachable!()
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe extern "C" fn start_write(_: u32, _: *mut u8) -> u32 {
+            unreachable!()
+        }
+        #[cfg(target_arch = "wasm32")]
+        #[link(wasm_import_module = "[export]uprotocol:basic/utransport")]
+        unsafe extern "C" {
+            #[link_name = "[future-new-0]receive"]
+            fn new() -> u32;
+            #[link_name = "[future-cancel-write-0]receive"]
+            fn cancel_write(_: u32) -> u32;
+            #[link_name = "[future-cancel-read-0]receive"]
+            fn cancel_read(_: u32) -> u32;
+            #[link_name = "[future-close-writable-0]receive"]
+            fn close_writable(_: u32, _: u32);
+            #[link_name = "[future-close-readable-0]receive"]
+            fn close_readable(_: u32, _: u32);
+            #[link_name = "[async-lower][future-read-0]receive"]
+            fn start_read(_: u32, _: *mut u8) -> u32;
+            #[link_name = "[async-lower][future-write-0]receive"]
+            fn start_write(_: u32, _: *mut u8) -> u32;
+        }
         pub static VTABLE: wit_bindgen_rt::async_support::FutureVtable<
-            super::super::_rt::String,
-        > = wit_bindgen_rt::async_support::FutureVtable::<super::super::_rt::String> {
+            super::super::exports::uprotocol::basic::utransport::Umessage,
+        > = wit_bindgen_rt::async_support::FutureVtable::<
+            super::super::exports::uprotocol::basic::utransport::Umessage,
+        > {
             write,
             read,
             cancel_write,
@@ -627,7 +793,7 @@ pub mod wit_future {
             close_readable,
             new,
         };
-        impl super::FuturePayload for super::super::_rt::String {
+        impl super::FuturePayload for super::super::exports::uprotocol::basic::utransport::Umessage {
             const VTABLE: &'static wit_bindgen_rt::async_support::FutureVtable<Self> = &VTABLE;
         }
     }
@@ -676,13 +842,11 @@ macro_rules! __export_up_core_api_impl {
 #[doc(inline)]
 pub(crate) use __export_up_core_api_impl as export;
 #[cfg(target_arch = "wasm32")]
-#[unsafe(
-    link_section = "component-type:wit-bindgen:0.41.0:uprotocol:basic:up-core-api:encoded world"
-)]
+#[unsafe(link_section = "component-type:wit-bindgen:0.41.0:uprotocol:basic:up-core-api:encoded world")]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 740] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\xe2\x04\x01A\x02\x01\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 789] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x93\x05\x01A\x02\x01\
 A\x0d\x01B\x04\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x01@\0\0\x01\x04\0\x12\
 create-uattributes\x01\x02\x03\0\x1buprotocol:basic/uattributes\x05\0\x02\x03\0\0\
 \x0buattributes\x01B\x04\x02\x03\x02\x01\x01\x04\0\x0buattributes\x03\0\0\x01r\x01\
@@ -691,13 +855,15 @@ e\x05\x02\x01B\x04\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0
 resource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\
 \0\x14uprotocol:basic/uuri\x05\x03\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uu\
 id\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\x04\0\x14uprotocol:basic/uu\
-id\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08umessage\x01B\x0a\x02\x03\x02\x01\
+id\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08umessage\x01B\x0d\x02\x03\x02\x01\
 \x05\x04\0\x04uuri\x03\0\0\x02\x03\x02\x01\x06\x04\0\x08umessage\x03\0\x02\x01e\x01\
 s\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\0\x04\x04\0\x11register-liste\
 ner\x01\x05\x04\0\x13unregister-listener\x01\x05\x01@\x01\x07message\x03\0\x04\x04\
-\0\x04send\x01\x06\x04\0\x1auprotocol:basic/utransport\x05\x07\x04\0\x1buprotoco\
-l:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core-api\x03\0\0\0G\x09producers\x01\
-\x0cprocessed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
+\0\x04send\x01\x06\x01e\x01\x03\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\
+\0\x07\x04\0\x07receive\x01\x08\x04\0\x1auprotocol:basic/utransport\x05\x07\x04\0\
+\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core-api\x03\0\0\0G\x09\
+producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rus\
+t\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {
