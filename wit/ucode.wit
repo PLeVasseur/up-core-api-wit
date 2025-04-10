@@ -1,0 +1,65 @@
+package uprotocol:basic;
+
+interface ucode {
+    // Canonical Error codes for uProtocol APIs
+    enum ucode {
+      // Completes successfully
+      OK,
+
+      // Operation has been cancelled by the caller
+      CANCELLED,
+
+      // An unknown (but not critical) error has occurred
+      UNKNOWN,
+
+      // Passed arguments are invalid (ex. improperly formatted)
+      INVALID-ARGUMENT,
+
+      // Operation has expired (timeout)
+      DEADLINE-EXCEEDED,
+
+      // Operation cannot be completed because the requested entity was not
+      // found (ex. database lookup and the data is not found)
+      // Calling uE *MAY* retry the operation with back-off
+      NOT-FOUND,
+
+      // The calling uE requested to add/create something that already exists
+      // (ex. add to a database something that is already there)
+      ALREADY-EXISTS,
+
+      // The calling uE is authenticated but not permitted to call the API
+      PERMISSION-DENIED,
+
+      // The calling uE does not have valid authentication credentials for the API
+      UNAUTHENTICATED,
+
+      // The resource being accessed has been exhausted (ex. out of disk space, etc...)
+      RESOURCE-EXHAUSTED,
+
+      // The system (service) is in a state that it cannot handle the request
+      // Calling uEs *SHOULD NOT* retry till the system state has been corrected
+      FAILED-PRECONDITION,
+
+      // The operation was aborted, typically due to a concurrency issue such as
+      // a sequencer check failure or transaction abort
+      // Calling uEs *MAY* retry but at a higher frequency than UNAVAILABLE
+      ABORTED,
+
+      // A caller would typically iterating through the results from said API
+      // and can is expected to detect the end of the results (out of range)
+      OUT-OF-RANGE,
+
+      // Part or all of the requested operation has not been implemented yet
+      UNIMPLEMENTED,
+
+      // A serious internal error has not described by a known error code
+      INTERNAL,
+
+      // The operation is currently unavailable
+      // Calling uEs *MAY* retry with back-off
+      UNAVAILABLE,
+
+      // When an unrecoverable data loss or corruption has occurred
+      DATA-LOSS,
+    }
+}

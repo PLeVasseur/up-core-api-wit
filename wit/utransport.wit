@@ -3,10 +3,11 @@ package uprotocol:basic;
 interface utransport {
     use uuri.{uuri};
     use umessage.{umessage};
+    use ustatus.{ustatus};
 
-    register-listener: func(source-filter: uuri, sink-filter: uuri) -> future<string>;
-    unregister-listener: func(source-filter: uuri, sink-filter: uuri) -> future<string>;
-    send: func(message: umessage) -> future<string>;
+    register-listener: func(source-filter: uuri, sink-filter: uuri) -> future<ustatus>;
+    unregister-listener: func(source-filter: uuri, sink-filter: uuri) -> future<ustatus>;
+    send: func(message: umessage) -> future<ustatus>;
     receive: func(source-filter: uuri, sink-filter: uuri) -> future<umessage>;
 }
 

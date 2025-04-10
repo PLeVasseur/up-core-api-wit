@@ -65,6 +65,161 @@ pub mod uprotocol {
                 }
             }
         }
+        #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
+        pub mod ucode {
+            #[used]
+            #[doc(hidden)]
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
+            /// Canonical Error codes for uProtocol APIs
+            #[repr(u8)]
+            #[derive(Clone, Copy, Eq, Ord, PartialEq, PartialOrd)]
+            pub enum Ucode {
+                /// Completes successfully
+                Ok,
+                /// Operation has been cancelled by the caller
+                Cancelled,
+                /// An unknown (but not critical) error has occurred
+                Unknown,
+                /// Passed arguments are invalid (ex. improperly formatted)
+                InvalidArgument,
+                /// Operation has expired (timeout)
+                DeadlineExceeded,
+                /// Operation cannot be completed because the requested entity was not
+                /// found (ex. database lookup and the data is not found)
+                /// Calling uE *MAY* retry the operation with back-off
+                NotFound,
+                /// The calling uE requested to add/create something that already exists
+                /// (ex. add to a database something that is already there)
+                AlreadyExists,
+                /// The calling uE is authenticated but not permitted to call the API
+                PermissionDenied,
+                /// The calling uE does not have valid authentication credentials for the API
+                Unauthenticated,
+                /// The resource being accessed has been exhausted (ex. out of disk space, etc...)
+                ResourceExhausted,
+                /// The system (service) is in a state that it cannot handle the request
+                /// Calling uEs *SHOULD NOT* retry till the system state has been corrected
+                FailedPrecondition,
+                /// The operation was aborted, typically due to a concurrency issue such as
+                /// a sequencer check failure or transaction abort
+                /// Calling uEs *MAY* retry but at a higher frequency than UNAVAILABLE
+                Aborted,
+                /// A caller would typically iterating through the results from said API
+                /// and can is expected to detect the end of the results (out of range)
+                OutOfRange,
+                /// Part or all of the requested operation has not been implemented yet
+                Unimplemented,
+                /// A serious internal error has not described by a known error code
+                Internal,
+                /// The operation is currently unavailable
+                /// Calling uEs *MAY* retry with back-off
+                Unavailable,
+                /// When an unrecoverable data loss or corruption has occurred
+                DataLoss,
+            }
+            impl ::core::fmt::Debug for Ucode {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    match self {
+                        Ucode::Ok => f.debug_tuple("Ucode::Ok").finish(),
+                        Ucode::Cancelled => f.debug_tuple("Ucode::Cancelled").finish(),
+                        Ucode::Unknown => f.debug_tuple("Ucode::Unknown").finish(),
+                        Ucode::InvalidArgument => {
+                            f.debug_tuple("Ucode::InvalidArgument").finish()
+                        }
+                        Ucode::DeadlineExceeded => {
+                            f.debug_tuple("Ucode::DeadlineExceeded").finish()
+                        }
+                        Ucode::NotFound => f.debug_tuple("Ucode::NotFound").finish(),
+                        Ucode::AlreadyExists => {
+                            f.debug_tuple("Ucode::AlreadyExists").finish()
+                        }
+                        Ucode::PermissionDenied => {
+                            f.debug_tuple("Ucode::PermissionDenied").finish()
+                        }
+                        Ucode::Unauthenticated => {
+                            f.debug_tuple("Ucode::Unauthenticated").finish()
+                        }
+                        Ucode::ResourceExhausted => {
+                            f.debug_tuple("Ucode::ResourceExhausted").finish()
+                        }
+                        Ucode::FailedPrecondition => {
+                            f.debug_tuple("Ucode::FailedPrecondition").finish()
+                        }
+                        Ucode::Aborted => f.debug_tuple("Ucode::Aborted").finish(),
+                        Ucode::OutOfRange => f.debug_tuple("Ucode::OutOfRange").finish(),
+                        Ucode::Unimplemented => {
+                            f.debug_tuple("Ucode::Unimplemented").finish()
+                        }
+                        Ucode::Internal => f.debug_tuple("Ucode::Internal").finish(),
+                        Ucode::Unavailable => {
+                            f.debug_tuple("Ucode::Unavailable").finish()
+                        }
+                        Ucode::DataLoss => f.debug_tuple("Ucode::DataLoss").finish(),
+                    }
+                }
+            }
+            impl Ucode {
+                #[doc(hidden)]
+                pub unsafe fn _lift(val: u8) -> Ucode {
+                    if !cfg!(debug_assertions) {
+                        return ::core::mem::transmute(val);
+                    }
+                    match val {
+                        0 => Ucode::Ok,
+                        1 => Ucode::Cancelled,
+                        2 => Ucode::Unknown,
+                        3 => Ucode::InvalidArgument,
+                        4 => Ucode::DeadlineExceeded,
+                        5 => Ucode::NotFound,
+                        6 => Ucode::AlreadyExists,
+                        7 => Ucode::PermissionDenied,
+                        8 => Ucode::Unauthenticated,
+                        9 => Ucode::ResourceExhausted,
+                        10 => Ucode::FailedPrecondition,
+                        11 => Ucode::Aborted,
+                        12 => Ucode::OutOfRange,
+                        13 => Ucode::Unimplemented,
+                        14 => Ucode::Internal,
+                        15 => Ucode::Unavailable,
+                        16 => Ucode::DataLoss,
+                        _ => panic!("invalid enum discriminant"),
+                    }
+                }
+            }
+        }
+        #[allow(dead_code, async_fn_in_trait, unused_imports, clippy::all)]
+        pub mod ustatus {
+            #[used]
+            #[doc(hidden)]
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
+            use super::super::super::_rt;
+            pub type Ucode = super::super::super::uprotocol::basic::ucode::Ucode;
+            /// uProtocol Error model for all uProtocol APIs that is loosly based off
+            /// google.rpc.Status
+            #[derive(Clone)]
+            pub struct Ustatus {
+                /// The status code.
+                pub code: Ucode,
+                /// A developer-facing error message, which should be in English. Any
+                /// user-facing error message should be localized and sent in the
+                /// details field, or localized by the client.
+                pub message: Option<_rt::String>,
+            }
+            impl ::core::fmt::Debug for Ustatus {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    f.debug_struct("Ustatus")
+                        .field("code", &self.code)
+                        .field("message", &self.message)
+                        .finish()
+                }
+            }
+        }
     }
 }
 #[rustfmt::skip]
@@ -244,6 +399,7 @@ pub mod exports {
                 use super::super::super::super::_rt;
                 pub type Uuri = super::super::super::super::exports::uprotocol::basic::uuri::Uuri;
                 pub type Umessage = super::super::super::super::uprotocol::basic::umessage::Umessage;
+                pub type Ustatus = super::super::super::super::uprotocol::basic::ustatus::Ustatus;
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
                 pub unsafe fn _export_register_listener_cabi<T: Guest>(
@@ -364,14 +520,14 @@ pub mod exports {
                     fn register_listener(
                         source_filter: Uuri,
                         sink_filter: Uuri,
-                    ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    ) -> wit_bindgen_rt::async_support::FutureReader<Ustatus>;
                     fn unregister_listener(
                         source_filter: Uuri,
                         sink_filter: Uuri,
-                    ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    ) -> wit_bindgen_rt::async_support::FutureReader<Ustatus>;
                     fn send(
                         message: Umessage,
-                    ) -> wit_bindgen_rt::async_support::FutureReader<_rt::String>;
+                    ) -> wit_bindgen_rt::async_support::FutureReader<Ustatus>;
                     fn receive(
                         source_filter: Uuri,
                         sink_filter: Uuri,
@@ -516,6 +672,13 @@ mod _rt {
             String::from_utf8_unchecked(bytes)
         }
     }
+    pub unsafe fn invalid_enum_discriminant<T>() -> T {
+        if cfg!(debug_assertions) {
+            panic!("invalid enum discriminant")
+        } else {
+            unsafe { core::hint::unreachable_unchecked() }
+        }
+    }
     pub use alloc_crate::boxed::Box;
     extern crate alloc as alloc_crate;
     pub use alloc_crate::alloc;
@@ -530,25 +693,49 @@ pub mod wit_future {
     pub mod vtable0 {
         fn write(
             future: u32,
-            value: super::super::_rt::String,
-        ) -> ::core::pin::Pin<super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>>
-        {
+            value: super::super::exports::uprotocol::basic::utransport::Ustatus,
+        ) -> ::core::pin::Pin<
+            super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>,
+        > {
             super::super::_rt::Box::pin(async move {
                 #[repr(align(4))]
-                struct Buffer([::core::mem::MaybeUninit<u8>; 8]);
-                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 8]);
+                struct Buffer([::core::mem::MaybeUninit<u8>; 16]);
+                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 16]);
                 let address = buffer.0.as_mut_ptr() as *mut u8;
                 unsafe {
-                    let vec0 = &value;
-                    let ptr0 = vec0.as_ptr().cast::<u8>();
-                    let len0 = vec0.len();
-                    *address
-                        .add(::core::mem::size_of::<*const u8>())
-                        .cast::<usize>() = len0;
-                    *address.add(0).cast::<*mut u8>() = ptr0.cast_mut();
+                    let super::super::uprotocol::basic::ustatus::Ustatus {
+                        code: code0,
+                        message: message0,
+                    } = &value;
+                    *address.add(0).cast::<u8>() = (code0.clone() as i32) as u8;
+                    match message0 {
+                        Some(e) => {
+                            *address
+                                .add(::core::mem::size_of::<*const u8>())
+                                .cast::<u8>() = (1i32) as u8;
+                            let vec1 = e;
+                            let ptr1 = vec1.as_ptr().cast::<u8>();
+                            let len1 = vec1.len();
+                            *address
+                                .add(3 * ::core::mem::size_of::<*const u8>())
+                                .cast::<usize>() = len1;
+                            *address
+                                .add(2 * ::core::mem::size_of::<*const u8>())
+                                .cast::<*mut u8>() = ptr1.cast_mut();
+                        }
+                        None => {
+                            *address
+                                .add(::core::mem::size_of::<*const u8>())
+                                .cast::<u8>() = (0i32) as u8;
+                        }
+                    };
                 }
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(start_write, future, address)
+                    wit_bindgen_rt::async_support::await_future_result(
+                            start_write,
+                            future,
+                            address,
+                        )
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(_) => true,
@@ -564,39 +751,72 @@ pub mod wit_future {
         ) -> ::core::pin::Pin<
             super::super::_rt::Box<
                 dyn ::core::future::Future<
-                        Output = ::std::option::Option<
-                            ::std::result::Result<
-                                super::super::_rt::String,
-                                wit_bindgen_rt::async_support::ErrorContext,
-                            >,
+                    Output = ::std::option::Option<
+                        ::std::result::Result<
+                            super::super::exports::uprotocol::basic::utransport::Ustatus,
+                            wit_bindgen_rt::async_support::ErrorContext,
                         >,
                     >,
+                >,
             >,
         > {
             super::super::_rt::Box::pin(async move {
-                struct Buffer([::core::mem::MaybeUninit<u8>; 8]);
-                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 8]);
+                struct Buffer([::core::mem::MaybeUninit<u8>; 16]);
+                let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 16]);
                 let address = buffer.0.as_mut_ptr() as *mut u8;
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(start_read, future, address)
+                    wit_bindgen_rt::async_support::await_future_result(
+                            start_read,
+                            future,
+                            address,
+                        )
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(v) => {
                         let value = unsafe {
-                            let l0 = *address.add(0).cast::<*mut u8>();
-                            let l1 = *address
-                                .add(::core::mem::size_of::<*const u8>())
-                                .cast::<usize>();
-                            let len2 = l1;
-                            let bytes2 =
-                                super::super::_rt::Vec::from_raw_parts(l0.cast(), len2, len2);
-                            super::super::_rt::string_lift(bytes2)
+                            let l0 = i32::from(*address.add(0).cast::<u8>());
+                            let l1 = i32::from(
+                                *address
+                                    .add(::core::mem::size_of::<*const u8>())
+                                    .cast::<u8>(),
+                            );
+                            super::super::uprotocol::basic::ustatus::Ustatus {
+                                code: super::super::uprotocol::basic::ucode::Ucode::_lift(
+                                    l0 as u8,
+                                ),
+                                message: match l1 {
+                                    0 => None,
+                                    1 => {
+                                        let e = {
+                                            let l2 = *address
+                                                .add(2 * ::core::mem::size_of::<*const u8>())
+                                                .cast::<*mut u8>();
+                                            let l3 = *address
+                                                .add(3 * ::core::mem::size_of::<*const u8>())
+                                                .cast::<usize>();
+                                            let len4 = l3;
+                                            let bytes4 = super::super::_rt::Vec::from_raw_parts(
+                                                l2.cast(),
+                                                len4,
+                                                len4,
+                                            );
+                                            super::super::_rt::string_lift(bytes4)
+                                        };
+                                        Some(e)
+                                    }
+                                    _ => super::super::_rt::invalid_enum_discriminant(),
+                                },
+                            }
                         };
                         Some(Ok(value))
                     }
-                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => Some(Err(
-                        wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
-                    )),
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => {
+                        Some(
+                            Err(
+                                wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
+                            ),
+                        )
+                    }
                     wit_bindgen_rt::async_support::AsyncWaitResult::End => None,
                 }
             })
@@ -647,17 +867,21 @@ pub mod wit_future {
             #[link_name = "[async-lower][future-write-0]register-listener"]
             fn start_write(_: u32, _: *mut u8) -> u32;
         }
-        pub static VTABLE: wit_bindgen_rt::async_support::FutureVtable<super::super::_rt::String> =
-            wit_bindgen_rt::async_support::FutureVtable::<super::super::_rt::String> {
-                write,
-                read,
-                cancel_write,
-                cancel_read,
-                close_writable,
-                close_readable,
-                new,
-            };
-        impl super::FuturePayload for super::super::_rt::String {
+        pub static VTABLE: wit_bindgen_rt::async_support::FutureVtable<
+            super::super::exports::uprotocol::basic::utransport::Ustatus,
+        > = wit_bindgen_rt::async_support::FutureVtable::<
+            super::super::exports::uprotocol::basic::utransport::Ustatus,
+        > {
+            write,
+            read,
+            cancel_write,
+            cancel_read,
+            close_writable,
+            close_readable,
+            new,
+        };
+        impl super::FuturePayload
+        for super::super::exports::uprotocol::basic::utransport::Ustatus {
             const VTABLE: &'static wit_bindgen_rt::async_support::FutureVtable<Self> = &VTABLE;
         }
     }
@@ -666,8 +890,9 @@ pub mod wit_future {
         fn write(
             future: u32,
             value: super::super::exports::uprotocol::basic::utransport::Umessage,
-        ) -> ::core::pin::Pin<super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>>
-        {
+        ) -> ::core::pin::Pin<
+            super::super::_rt::Box<dyn ::core::future::Future<Output = bool>>,
+        > {
             super::super::_rt::Box::pin(async move {
                 #[repr(align(4))]
                 struct Buffer([::core::mem::MaybeUninit<u8>; 4]);
@@ -677,12 +902,17 @@ pub mod wit_future {
                     let super::super::uprotocol::basic::umessage::Umessage {
                         uattributes: uattributes0,
                     } = &value;
-                    let super::super::uprotocol::basic::uattributes::Uattributes { foo: foo1 } =
-                        uattributes0;
+                    let super::super::uprotocol::basic::uattributes::Uattributes {
+                        foo: foo1,
+                    } = uattributes0;
                     *address.add(0).cast::<i32>() = super::super::_rt::as_i32(foo1);
                 }
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(start_write, future, address)
+                    wit_bindgen_rt::async_support::await_future_result(
+                            start_write,
+                            future,
+                            address,
+                        )
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(_) => true,
@@ -698,13 +928,13 @@ pub mod wit_future {
         ) -> ::core::pin::Pin<
             super::super::_rt::Box<
                 dyn ::core::future::Future<
-                        Output = ::std::option::Option<
-                            ::std::result::Result<
-                                super::super::exports::uprotocol::basic::utransport::Umessage,
-                                wit_bindgen_rt::async_support::ErrorContext,
-                            >,
+                    Output = ::std::option::Option<
+                        ::std::result::Result<
+                            super::super::exports::uprotocol::basic::utransport::Umessage,
+                            wit_bindgen_rt::async_support::ErrorContext,
                         >,
                     >,
+                >,
             >,
         > {
             super::super::_rt::Box::pin(async move {
@@ -712,24 +942,31 @@ pub mod wit_future {
                 let mut buffer = Buffer([::core::mem::MaybeUninit::uninit(); 4]);
                 let address = buffer.0.as_mut_ptr() as *mut u8;
                 match unsafe {
-                    wit_bindgen_rt::async_support::await_future_result(start_read, future, address)
+                    wit_bindgen_rt::async_support::await_future_result(
+                            start_read,
+                            future,
+                            address,
+                        )
                         .await
                 } {
                     wit_bindgen_rt::async_support::AsyncWaitResult::Values(v) => {
                         let value = unsafe {
                             let l0 = *address.add(0).cast::<i32>();
                             super::super::uprotocol::basic::umessage::Umessage {
-                                uattributes:
-                                    super::super::uprotocol::basic::uattributes::Uattributes {
-                                        foo: l0 as u32,
-                                    },
+                                uattributes: super::super::uprotocol::basic::uattributes::Uattributes {
+                                    foo: l0 as u32,
+                                },
                             }
                         };
                         Some(Ok(value))
                     }
-                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => Some(Err(
-                        wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
-                    )),
+                    wit_bindgen_rt::async_support::AsyncWaitResult::Error(e) => {
+                        Some(
+                            Err(
+                                wit_bindgen_rt::async_support::ErrorContext::from_handle(e),
+                            ),
+                        )
+                    }
                     wit_bindgen_rt::async_support::AsyncWaitResult::End => None,
                 }
             })
@@ -793,7 +1030,8 @@ pub mod wit_future {
             close_readable,
             new,
         };
-        impl super::FuturePayload for super::super::exports::uprotocol::basic::utransport::Umessage {
+        impl super::FuturePayload
+        for super::super::exports::uprotocol::basic::utransport::Umessage {
             const VTABLE: &'static wit_bindgen_rt::async_support::FutureVtable<Self> = &VTABLE;
         }
     }
@@ -842,28 +1080,37 @@ macro_rules! __export_up_core_api_impl {
 #[doc(inline)]
 pub(crate) use __export_up_core_api_impl as export;
 #[cfg(target_arch = "wasm32")]
-#[unsafe(link_section = "component-type:wit-bindgen:0.41.0:uprotocol:basic:up-core-api:encoded world")]
+#[unsafe(
+    link_section = "component-type:wit-bindgen:0.41.0:uprotocol:basic:up-core-api:encoded world"
+)]
 #[doc(hidden)]
 #[allow(clippy::octal_escapes)]
-pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 789] = *b"\
-\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x93\x05\x01A\x02\x01\
-A\x0d\x01B\x04\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x01@\0\0\x01\x04\0\x12\
+pub static __WIT_BINDGEN_COMPONENT_TYPE: [u8; 1173] = *b"\
+\0asm\x0d\0\x01\0\0\x19\x16wit-component-encoding\x04\0\x07\x93\x08\x01A\x02\x01\
+A\x13\x01B\x04\x01r\x01\x03fooy\x04\0\x0buattributes\x03\0\0\x01@\0\0\x01\x04\0\x12\
 create-uattributes\x01\x02\x03\0\x1buprotocol:basic/uattributes\x05\0\x02\x03\0\0\
 \x0buattributes\x01B\x04\x02\x03\x02\x01\x01\x04\0\x0buattributes\x03\0\0\x01r\x01\
 \x0buattributes\x01\x04\0\x08umessage\x03\0\x02\x03\0\x18uprotocol:basic/umessag\
-e\x05\x02\x01B\x04\x01r\x04\x0eauthority-names\x05ue-idy\x10ue-version-majory\x0b\
-resource-idy\x04\0\x04uuri\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\
-\0\x14uprotocol:basic/uuri\x05\x03\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uu\
-id\x03\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuid\x01\x02\x04\0\x14uprotocol:basic/uu\
-id\x05\x04\x02\x03\0\x02\x04uuri\x02\x03\0\x01\x08umessage\x01B\x0d\x02\x03\x02\x01\
-\x05\x04\0\x04uuri\x03\0\0\x02\x03\x02\x01\x06\x04\0\x08umessage\x03\0\x02\x01e\x01\
-s\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\0\x04\x04\0\x11register-liste\
-ner\x01\x05\x04\0\x13unregister-listener\x01\x05\x01@\x01\x07message\x03\0\x04\x04\
-\0\x04send\x01\x06\x01e\x01\x03\x01@\x02\x0dsource-filter\x01\x0bsink-filter\x01\
-\0\x07\x04\0\x07receive\x01\x08\x04\0\x1auprotocol:basic/utransport\x05\x07\x04\0\
-\x1buprotocol:basic/up-core-api\x04\0\x0b\x11\x01\0\x0bup-core-api\x03\0\0\0G\x09\
-producers\x01\x0cprocessed-by\x02\x0dwit-component\x070.227.1\x10wit-bindgen-rus\
-t\x060.41.0";
+e\x05\x02\x01B\x02\x01m\x11\x02OK\x09CANCELLED\x07UNKNOWN\x10INVALID-ARGUMENT\x11\
+DEADLINE-EXCEEDED\x09NOT-FOUND\x0eALREADY-EXISTS\x11PERMISSION-DENIED\x0fUNAUTHE\
+NTICATED\x12RESOURCE-EXHAUSTED\x13FAILED-PRECONDITION\x07ABORTED\x0cOUT-OF-RANGE\
+\x0dUNIMPLEMENTED\x08INTERNAL\x0bUNAVAILABLE\x09DATA-LOSS\x04\0\x05ucode\x03\0\0\
+\x03\0\x15uprotocol:basic/ucode\x05\x03\x02\x03\0\x02\x05ucode\x01B\x05\x02\x03\x02\
+\x01\x04\x04\0\x05ucode\x03\0\0\x01ks\x01r\x02\x04code\x01\x07message\x02\x04\0\x07\
+ustatus\x03\0\x03\x03\0\x17uprotocol:basic/ustatus\x05\x05\x01B\x04\x01r\x04\x0e\
+authority-names\x05ue-idy\x10ue-version-majory\x0bresource-idy\x04\0\x04uuri\x03\
+\0\0\x01@\0\0\x01\x04\0\x0bcreate-uuri\x01\x02\x04\0\x14uprotocol:basic/uuri\x05\
+\x06\x01B\x04\x01r\x02\x03msbw\x03lsbw\x04\0\x04uuid\x03\0\0\x01@\0\0\x01\x04\0\x0b\
+create-uuid\x01\x02\x04\0\x14uprotocol:basic/uuid\x05\x07\x02\x03\0\x04\x04uuri\x02\
+\x03\0\x01\x08umessage\x02\x03\0\x03\x07ustatus\x01B\x0f\x02\x03\x02\x01\x08\x04\
+\0\x04uuri\x03\0\0\x02\x03\x02\x01\x09\x04\0\x08umessage\x03\0\x02\x02\x03\x02\x01\
+\x0a\x04\0\x07ustatus\x03\0\x04\x01e\x01\x05\x01@\x02\x0dsource-filter\x01\x0bsi\
+nk-filter\x01\0\x06\x04\0\x11register-listener\x01\x07\x04\0\x13unregister-liste\
+ner\x01\x07\x01@\x01\x07message\x03\0\x06\x04\0\x04send\x01\x08\x01e\x01\x03\x01\
+@\x02\x0dsource-filter\x01\x0bsink-filter\x01\0\x09\x04\0\x07receive\x01\x0a\x04\
+\0\x1auprotocol:basic/utransport\x05\x0b\x04\0\x1buprotocol:basic/up-core-api\x04\
+\0\x0b\x11\x01\0\x0bup-core-api\x03\0\0\0G\x09producers\x01\x0cprocessed-by\x02\x0d\
+wit-component\x070.227.1\x10wit-bindgen-rust\x060.41.0";
 #[inline(never)]
 #[doc(hidden)]
 pub fn __link_custom_section_describing_imports() {
